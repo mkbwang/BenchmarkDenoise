@@ -1,0 +1,10 @@
+.Rproj.user
+*.Rproj
+.Rbuildignore
+.Rhistory
+inst/extdata/
+*.png
+*.pdf
+*.rds
+*.csv
+

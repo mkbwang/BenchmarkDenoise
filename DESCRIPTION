@@ -1,0 +1,27 @@
+Package: BenchmarkDenoise
+Title: Utility functions for benchmarking different denoising methods for metagenomics count matrix
+Version: 0.0.1
+Authors@R: 
+    person("Mukai", "Wang", , "wangmk@umich.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-1413-1904"))
+Description: Utility functions for benchmarking different denoising methods for metagenomics count matrix.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    ggplot2 (>= 3.5.1),
+    DFBM,
+    ComplexHeatmap (>= 2.22.0),
+    stats,
+    grDevices,
+    circlize (>= 0.4.16),
+    grid
+Suggests: 
+    rmarkdown (>= 2.11),
+    knitr (>= 1.37),
+    testthat (>= 3.0.0)
+Depends: 
+    R (>= 4.1.0)
+Remotes: 
+    mkbwang/DFBM
