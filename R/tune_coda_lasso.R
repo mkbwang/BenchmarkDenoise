@@ -12,6 +12,7 @@ expit <- function(xval) {
 #' @param lambdas range of lambdas to try
 #' @param seed random seed that decides train test split
 #' @returns list of training AUC, test AUC and coefficients of all runs
+#' @export
 fit_codalasso <- function(y, X, lambdas=seq(0.05, 0.55, 0.1), seed=20){
 
     set.seed(seed)
