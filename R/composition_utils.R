@@ -10,7 +10,7 @@
 #' @return normalized count matrix
 #'
 normalize <- function(count_mat, libsize=1){
-    normalized_count_mat <- t(apply(count_mat, 1, function(row, libsize=libsize) {
+    normalized_count_mat <- t(apply(count_mat, 1, function(row) {
         row_sum <- sum(row)
         row / row_sum * libsize
     }))
@@ -29,8 +29,10 @@ normalize <- function(count_mat, libsize=1){
 #' @export
 simple_impute <- function(count_mat, scale=0.5){
 
-    column_impute <- function(values, s=scale){
-        values[values == 0] <- min(values[values > 0])*s
+    column_impute <- function(values){
+        if (sum(values == 0) > 0){
+            values[values == 0] <- min(values[values > 0])*scale
+        }
         return(values)
     }
     imputed_count_mat <- apply(count_mat, 2, column_impute)

@@ -13,7 +13,6 @@ Imports:
     ggplot2 (>= 3.5.1),
     DFBM,
     parallelly (>= 1.38.0),
-    glmnet (>= 4.1.8),
     randomForest (>= 4.7.1),
     caret (>= 7.0.1),
     ComplexHeatmap (>= 2.22.0),

@@ -1,53 +1,47 @@
 
 
+
 expit <- function(xval) {
     1/(1+exp(-xval))
 }
 
+
 #' Fit coda lasso multiple times with random train/test splitting. Cross validation involved
 #' @param y response variable
 #' @param X predictor variable matrix
-#' @param times number of repeats of codalasso fitting
+#' @param lambdas range of lambdas to try
+#' @param seed random seed that decides train test split
 #' @returns list of training AUC, test AUC and coefficients of all runs
-repeated_codalasso <- function(y, X, times=20){
+fit_codalasso <- function(y, X, lambdas=seq(0.05, 0.55, 0.1), seed=20){
 
-    train_aucs <- rep(0, times)
-    test_aucs <- rep(0, times)
+    set.seed(seed)
+    trainIndex <- createDataPartition(y, p = 0.8, list = FALSE)
+    trainData <- X[trainIndex, ]
+    testData  <- X[-trainIndex, ]
+    train_labels <- y[trainIndex]
+    test_labels <- y[-trainIndex]
 
-    coef_mat<- matrix(0, nrow=times, ncol=ncol(X))
+    # cross validation to select lambda
+    selected_lambda <- codalasso_lambda_tune(y=train_labels, X=trainData, nfolds=5,
+                                             lambdas=lambdas,seed=seed)
 
-    for (k in 1:times){
 
-        set.seed(k)
-        print(k)
-        trainIndex <- createDataPartition(y, p = 0.8, list = FALSE)
-        trainData <- X[trainIndex, ]
-        testData  <- X[-trainIndex, ]
-        train_labels <- y[trainIndex]
-        test_labels <- y[-trainIndex]
+    # fit final model
+    final_model <- coda_logistic_lasso(y=train_labels, X=trainData, lambda=selected_lambda)
+    intercept <- final_model$betas[1]
+    coefs <- final_model$betas[-1]
 
-        # cross validation to select lambda
-        selected_lambda <- codalasso_lambda_tune(y=train_labels, X=trainData, nfolds=5,
-                                                 seed=k)
+    predicted_links_train <- intercept + log(as.matrix(trainData)) %*% coefs
+    predicted_probs_train <- expit(predicted_links_train)
+    train_auc <- auc(roc(train_labels, as.vector(predicted_probs_train))) |> suppressMessages()
 
-        # fit final model
-        final_model <- coda_logistic_lasso(y=train_labels, X=trainData, lambda=selected_lambda)
-        coef_mat[k, ] <- final_model$betas[-1]
+    predicted_links_test <- intercept + log(as.matrix(testData)) %*% coefs
+    predicted_probs_test <- expit(predicted_links_test)
+    test_auc <- auc(roc(test_labels, as.vector(predicted_probs_test))) |> suppressMessages()
 
-        predicted_links_train <- final_model$betas[1] +
-            log(as.matrix(trainData)) %*% final_model$betas[-1]
-        predicted_probs_train <- expit(predicted_links_train)
-        train_aucs[k] <- auc(roc(train_labels, as.vector(predicted_probs_train))) |> suppressMessages()
 
-        predicted_links_test <- final_model$betas[1] +
-            log(as.matrix(testData)) %*% final_model$betas[-1]
-        predicted_probs_test <- expit(predicted_links_test)
-        test_aucs[k] <- auc(roc(test_labels, as.vector(predicted_probs_test))) |> suppressMessages()
-
-    }
-
-    return(list(train_aucs=train_aucs, test_aucs=test_aucs,
-                coefs=coef_mat))
+    return(list(train_auc=train_auc, test_auc=test_auc,
+                coefs=coefs))
 }
 
 #' split into train and validation multiple times
@@ -137,7 +131,7 @@ codalasso_lambda_tune <- function(y, X, lambdas=seq(0.05, 0.55, 0.1), nfolds=5,
 
     }
 
-    best_lambda <- lambdas[which.min(test_auc_mean)]
+    best_lambda <- lambdas[which.max(test_auc_mean)]
     # output <- list(lambdas=lambdas,train_auc_mean=train_auc_mean, train_auc_sd=train_auc_sd,
     #                test_auc_mean=test_auc_mean, test_auc_sd=test_auc_sd,
     #                num_features_mean=num_features_mean, num_features_sd=num_features_sd,
