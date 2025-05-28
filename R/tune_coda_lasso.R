@@ -23,8 +23,12 @@ fit_codalasso <- function(y, X, lambdas=seq(0.05, 0.55, 0.1), seed=20){
     test_labels <- y[-trainIndex]
 
     # cross validation to select lambda
-    selected_lambda <- codalasso_lambda_tune(y=train_labels, X=trainData, nfolds=5,
-                                             lambdas=lambdas,seed=seed)
+    if (length(lambdas) > 1){
+        selected_lambda <- codalasso_lambda_tune(y=train_labels, X=trainData, nfolds=5,
+                                                 lambdas=lambdas, seed=seed)
+    } else{
+        selected_lambda <- lambdas
+    }
 
 
     # fit final model
