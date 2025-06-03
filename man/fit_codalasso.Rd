@@ -5,21 +5,24 @@
 \title{Fit coda lasso multiple times with random train/test splitting. Cross validation involved}
 \usage{
 fit_codalasso(
-  y,
-  X,
+  y_train,
+  X_train,
+  y_test,
+  X_test,
   lambdas = seq(0.05, 0.55, 0.1),
-  train_prop = 0.8,
-  seed = 20
+  seed = 1
 )
 }
 \arguments{
-\item{y}{response variable}
+\item{y_train}{response variable of training data}
 
-\item{X}{predictor variable matrix}
+\item{X_train}{predictor variable matrix of training data}
+
+\item{y_test}{response variable of test data}
+
+\item{X_test}{predictor variable matrix of test data}
 
 \item{lambdas}{range of lambdas to try}
-
-\item{train_prop}{proportion of data for training}
 
 \item{seed}{random seed that decides train test split}
 }
