@@ -9,7 +9,7 @@ simple_impute(count_mat, scale = 0.5)
 \arguments{
 \item{count_mat}{count matrix (nsample*nfeature)}
 
-\item{scale}{for an entry with zeros, impute the zeros with scale* smallest nonzero value in the column
+\item{scale}{for an entry with zeros, impute the zeros with scale* smallest nonzero value in each row (sample)
 @return imputed count matrix}
 }
 \description{

@@ -24,18 +24,18 @@ normalize <- function(count_mat, libsize=1){
 #' Impute the zeros with a pseudocount
 #'
 #' @param count_mat count matrix (nsample*nfeature)
-#' @param scale for an entry with zeros, impute the zeros with scale* smallest nonzero value in the column
+#' @param scale for an entry with zeros, impute the zeros with scale* smallest nonzero value in each row (sample)
 #'  @return imputed count matrix
 #' @export
 simple_impute <- function(count_mat, scale=0.5){
 
-    column_impute <- function(values){
+    row_impute <- function(values){
         if (sum(values == 0) > 0){
             values[values == 0] <- min(values[values > 0])*scale
         }
         return(values)
     }
-    imputed_count_mat <- apply(count_mat, 2, column_impute)
+    imputed_count_mat <- apply(count_mat, 1, row_impute)
     return(imputed_count_mat)
 
 }

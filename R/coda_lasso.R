@@ -14,6 +14,7 @@
 #' @param tol2 tolerance to fulfill the constraint:  sum of betas being 1
 #' @param printTime value to print computing time (works any value)
 #' @importFrom stats glm deviance binomial
+#' @export
 coda_logistic_lasso  <-  function(y,X,lambda, maxiter=400, maxiter2=50, r=10,
                                   tol=1.e-4, tol2=1.e-6, printTime=NULL){
 

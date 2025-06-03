@@ -4,7 +4,13 @@
 \alias{fit_codalasso}
 \title{Fit coda lasso multiple times with random train/test splitting. Cross validation involved}
 \usage{
-fit_codalasso(y, X, lambdas = seq(0.05, 0.55, 0.1), seed = 20)
+fit_codalasso(
+  y,
+  X,
+  lambdas = seq(0.05, 0.55, 0.1),
+  train_prop = 0.8,
+  seed = 20
+)
 }
 \arguments{
 \item{y}{response variable}
@@ -12,6 +18,8 @@ fit_codalasso(y, X, lambdas = seq(0.05, 0.55, 0.1), seed = 20)
 \item{X}{predictor variable matrix}
 
 \item{lambdas}{range of lambdas to try}
+
+\item{train_prop}{proportion of data for training}
 
 \item{seed}{random seed that decides train test split}
 }

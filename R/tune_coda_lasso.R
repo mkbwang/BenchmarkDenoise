@@ -10,13 +10,14 @@ expit <- function(xval) {
 #' @param y response variable
 #' @param X predictor variable matrix
 #' @param lambdas range of lambdas to try
+#' @param train_prop proportion of data for training
 #' @param seed random seed that decides train test split
 #' @returns list of training AUC, test AUC and coefficients of all runs
 #' @export
-fit_codalasso <- function(y, X, lambdas=seq(0.05, 0.55, 0.1), seed=20){
+fit_codalasso <- function(y, X, lambdas=seq(0.05, 0.55, 0.1), train_prop=0.8, seed=20){
 
     set.seed(seed)
-    trainIndex <- createDataPartition(y, p = 0.8, list = FALSE)
+    trainIndex <- createDataPartition(y, p = train_prop, list = FALSE)
     trainData <- X[trainIndex, ]
     testData  <- X[-trainIndex, ]
     train_labels <- y[trainIndex]
