@@ -47,7 +47,7 @@ fit_codalasso <- function(y_train, X_train, y_test, X_test, lambdas=seq(0.05, 0.
     test_auc <- auc(roc(y_test, as.vector(predicted_probs_test))) |> suppressMessages()
 
 
-    return(list(train_auc=train_auc, test_auc=test_auc,
+    return(list(train_auc=train_auc, test_auc=test_auc, lambda=selected_lambda,
                 coefs=coefs))
 }
 
