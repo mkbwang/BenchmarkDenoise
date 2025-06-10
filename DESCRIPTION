@@ -23,6 +23,7 @@ Imports:
     stats,
     grDevices,
     circlize (>= 0.4.16),
+    glmnet (>= 4.1.8),
     grid
 Suggests: 
     rmarkdown (>= 2.11),

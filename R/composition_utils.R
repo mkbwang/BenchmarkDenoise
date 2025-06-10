@@ -51,7 +51,8 @@ simple_impute <- function(count_mat, scale=0.5){
 clr_transform <- function(count_mat, impute_scale=0.5){
 
     normalized_count <- normalize(count_mat=count_mat)
-    imputed_normalized_count <- simple_impute(count_mat=normalized_count, scale=impute_scale)
+    imputed_normalized_count <- simple_impute(count_mat=normalized_count, scale=impute_scale) |>
+        t()
 
     nsamples <- nrow(imputed_normalized_count)
     clr_counts <- matrix(0, nrow=nrow(imputed_normalized_count),
