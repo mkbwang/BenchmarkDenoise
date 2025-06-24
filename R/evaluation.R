@@ -5,6 +5,7 @@
 #' @param truth true abundance matrix
 #' @param estimation estimated abundance matrix
 #' @returns a scalar representing frobenious norm error
+#' @export
 frobenius_norm <- function(truth, estimation){
 
     normalized_truth <- normalize(truth)
@@ -22,7 +23,7 @@ frobenius_norm <- function(truth, estimation){
 #' @param truth true abundance matrix
 #' @param estimation estimated abundance matrix
 #' @returns a scalar representing average KL divergence of sample compositions
-#'
+#' @export
 KL_divergence <- function(truth, estimation){
 
     normalized_truth <- normalize(truth)
@@ -45,7 +46,7 @@ KL_divergence <- function(truth, estimation){
 #' @param truth true abundance matrix
 #' @param estimation estimated abundance matrix
 #' @returns a scalar representing average bray-curtis distance
-#'
+#' @export
 bray_curtis_distance <- function(truth, estimation){
 
     normalized_truth <- normalize(truth)
@@ -64,6 +65,7 @@ bray_curtis_distance <- function(truth, estimation){
 #' @param estimation estimated abundance matrix
 #' @returns a scalar representing average correlation with truth
 #' @importFrom stats cor
+#' @export
 feature_correlation <- function(truth, estimation){
 
     normalized_truth <- normalize(truth)
@@ -85,7 +87,7 @@ feature_correlation <- function(truth, estimation){
 #' @param truth true abundance matrix
 #' @param estimation estimated abundance matrix
 #' @returns a scalar representing average coefficient of variation difference
-#'
+#' @export
 coef_var <- function(truth, estimation){
 
     normalized_truth <- normalize(truth)
