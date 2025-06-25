@@ -95,11 +95,11 @@ coef_var <- function(truth, estimation){
 
     mean_truth <- colMeans(normalized_truth)
     sd_truth <- apply(normalized_truth, 2, sd)
-    cv_truth <- mean_truth/sd_truth
+    cv_truth <- sd_truth/mean_truth
 
     mean_estimation <- colMeans(normalized_estimation)
     sd_estimation <- apply(normalized_estimation, 2, sd)
-    cv_estimation <- mean_estimation/sd_estimation
+    cv_estimation <- sd_estimation/mean_estimation
 
     cv_error <- mean((cv_truth - cv_estimation)^2)
 
